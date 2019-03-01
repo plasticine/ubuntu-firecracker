@@ -18,6 +18,7 @@ RUN set -x; \
         cpio \
         flex \
         cpio \
+        lsof \
         libncurses5-dev \
         libelf-dev \
         libssl-dev; \
@@ -30,8 +31,5 @@ RUN yes '' | make oldconfig && make -j $(nproc) deb-pkg
 WORKDIR /root
 
 VOLUME [ "/output", "/rootfs", "/script", "/config" ]
-
-ADD script /script
-ADD config /config
 
 CMD [ "/bin/bash", "/script/image.sh" ]

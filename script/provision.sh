@@ -3,11 +3,11 @@ set -ex
 
 dpkg -i /mnt/root/linux*.deb
 
-echo 'ubuntu-bionic' > /etc/hostname
+echo 'buildkite' > /etc/hostname
 
 passwd -d root
 
-mkdir /etc/systemd/system/serial-getty@ttyS0.service.d/
+mkdir -p /etc/systemd/system/serial-getty@ttyS0.service.d/
 cat <<EOF > /etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
 [Service]
 ExecStart=
@@ -30,6 +30,9 @@ sh -c 'echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
 
 apt-get update
-apt-get install -y --no-install-recommends buildkite-agent
+apt-get install -y --no-install-recommends \
+    buildkite-agent \
+    curl \
+    net-tools
+
 systemctl enable buildkite-agent
-systemctl start buildkite-agent
