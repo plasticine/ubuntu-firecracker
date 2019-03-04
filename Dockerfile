@@ -6,8 +6,10 @@ ENV KERNEL_SOURCE_VERSION 4.15.0
 WORKDIR /root
 
 RUN set -x; \
+
     apt-get update; \
     apt-get install -y \
+        squid-deb-proxy-client \
         debootstrap \
         build-essential \
         kernel-package \
@@ -22,7 +24,9 @@ RUN set -x; \
         libncurses5-dev \
         libelf-dev \
         libssl-dev; \
-    tar xvf /usr/src/linux-source-$KERNEL_SOURCE_VERSION.tar.*
+
+    # Unpack linux source
+    tar xvf /usr/src/linux-source-$KERNEL_SOURCE_VERSION.tar.*;
 
 ADD config/kernel-config /root/linux-source-$KERNEL_SOURCE_VERSION/.config
 
