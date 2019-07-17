@@ -6,7 +6,7 @@ dpkg -i /mnt/root/linux*.deb
 # Set hostname
 echo 'buildkite' > /etc/hostname
 
-# Configure networking via netplan
+# Configure networking
 cat <<EOF > /etc/netplan/99_config.yaml
 network:
   version: 2
@@ -62,7 +62,6 @@ chmod +x /etc/update-motd.d/00-message
 
 # Configure auto login
 passwd -d root
-
 mkdir -p /etc/systemd/system/serial-getty@ttyS0.service.d/
 cat <<EOF > /etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf
 [Service]
@@ -70,4 +69,5 @@ ExecStart=
 ExecStart=-/sbin/agetty --autologin root -o '-p -- \\u' --keep-baud 115200,38400,9600 %I $TERM
 EOF
 
+# All done, let’s get outta here!
 exit 0
